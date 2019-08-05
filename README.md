@@ -9,6 +9,11 @@ Purpose was to create a personal blog using Gatsby and use a CMS - Contentful to
 - [Gatsby](https://www.gatsbyjs.org/)
 - [Contentful](https://www.contentful.com/)
 
+## Upcoming Features
+
+- Create Tags based on keywords from posts
+- Bookmark favourite posts which uses localStorage
+
 ## [Deployment](https://public.josiahsingh.now.sh/)
 
 Deployed on [Now.sh](https://zeit.co/now)
