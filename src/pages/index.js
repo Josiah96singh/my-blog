@@ -1,48 +1,62 @@
 import React from "react"
 import { graphql, Link } from "gatsby"
 import Header from "../components/Header"
+import Footer from "../components/Footer"
 
-const Layout = ({ data }) => {
-  const { edges } = data.allMarkdownRemark
-  console.log(edges)
-  return (
-    <div>
-      <Header />
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          fontFamily: "avenir",
-        }}
-      >
-        {edges.map(edge => {
-          const { frontmatter } = edge.node
+class Layout extends React.Component {
+  render() {
+    const { data } = this.props
+    const posts = data.allContentfulMyCoolBlog.edges
+
+    return (
+      <div>
+        <Header posts={posts} />
+        {posts.map(({ node }) => {
+          const title = node.title || node.slug
           return (
-            <div key={frontmatter.title} style={{ marginBottom: "1rem" }}>
-              <Link to={frontmatter.path}>{frontmatter.title}</Link>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                fontFamily: "avenir",
+                paddingTop: 50,
+              }}
+              key={node.slug}
+            >
+              <h2 style={{ marginBottom: 20 }}>
+                <Link style={{ boxShadow: `none` }} to={node.slug}>
+                  {title}
+                </Link>
+              </h2>
+              <small>Posted on {node.createdAt}</small>
+              <p>{node.subtitle.subtitle}</p>
             </div>
           )
         })}
-
-        <div>
-          <Link to="/tags">Browse by Tag</Link>
-        </div>
       </div>
-    </div>
-  )
+    )
+  }
 }
 
 export const query = graphql`
   query HomepageQuery {
-    allMarkdownRemark(sort: { order: DESC, fields: [frontmatter___date] }) {
+    allContentfulMyCoolBlog {
       edges {
         node {
-          frontmatter {
-            title
-            path
-            date
+          title
+          author
+          slug
+          subtitle {
+            subtitle
           }
+          createdAt(formatString: "DD MMMM YYYY")
+          image {
+            fluid {
+              src
+            }
+          }
+          tags
         }
       }
     }

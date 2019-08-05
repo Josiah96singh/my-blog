@@ -1,13 +1,18 @@
-/**
- * Configure your Gatsby site with this file.
- *
- * See: https://www.gatsbyjs.org/docs/gatsby-config/
- */
+const dotenv = require("dotenv")
+
+if (process.env.NODE_ENV !== "production") {
+  dotenv.config()
+}
 
 module.exports = {
   siteMetadata: {
-    title: "My Blog",
-    description: "My super cool really dope blog.",
+    title: `Josiah Singh`,
+    description: `Welcome to my personal blog.`,
+    author: `Josiah`,
+    social: {
+      twitter: `josiahernest`,
+      linkedin: `josiahameetsingh`,
+    },
   },
   plugins: [
     `gatsby-transformer-remark`,
@@ -18,5 +23,14 @@ module.exports = {
         path: `${__dirname}/src/pages`,
       },
     },
+    // prettier-ignore
+    {
+      resolve: `gatsby-source-contentful`,
+      options: {
+        spaceId: `e8c2yakczoh8`,
+        accessToken: process.env.CONTENTFUL_ACCESS_TOKEN,
+      },
+    },
+    `@contentful/gatsby-transformer-contentful-richtext`,
   ],
 }
